@@ -1,4 +1,4 @@
-;;; package --- summary This is my emacs noob config for a scala developer 
+;; package --- summary This is my emacs noob config for a scala developer
 (require 'package)
 
 ;; Add melpa to your packages repositories
@@ -38,8 +38,6 @@
   ;; Set default theme
   (load-theme 'afternoon t))
 
-
-;; Vterm
 (use-package vterm
  :commands vterm)
 (use-package helm-switch-shell
@@ -47,7 +45,6 @@
  :bind ("s-v". helm-switch-shell)
  ("C-c v". helm-switch-shell)
  :config (setq helm-switch-shell-new-shell-type 'vterm))
-
 
 
 ;; Navigation
@@ -71,32 +68,19 @@
         (display-line-numbers-mode)))
   (global-display-line-numbers-mode))
 
+;; Projectile
+(use-package projectile
+  :delight '(:eval (concat " " (projectile-project-name)))
+  :init (projectile-mode +1)
+  :config (setq projectile-project-search-path '(("~/repositories/" . 2) ))
+  :bind-keymap ("C-c p" . projectile-command-map)
+  )
+
+(use-package flycheck-projectile
+  :commands flycheck-projectile-list-errors)
 
 
-;; load the personal settings (this includes `custom-file'
-(defvar emacs-dir (file-name-directory load-file-name))
-(defvar config-dir (expand-file-name "config" emacs-dir))
-(when (file-exists-p config-dir)
-  (message "Loading personal configuration files in %s..." config-dir)
-  (mapc 'load (directory-files config-dir 't "^[^#\.].*\\.el$"))
-  (message "Loading personal configuration files in %s...done" config-dir))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(dimmer resize-window transpose-frame which-key helpful helm-ag helm-flyspell flyspell-lazy burly bufler multiple-cursors git-link diff-hl git-timemachine code-review gh-notify forge treemacs-all-the-icons use-package-ensure-system-package eshell-vterm vterm-toggle multi-vterm ztree helm-switch-shell vterm afternoon-theme helm-lsp helm-company helm-swoop helm-projectile helm yasnippet vertico use-package treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired sbt-mode lsp-ui lsp-metals flycheck company))
- '(warning-suppress-types '((use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-;;;
-
+;; Buffler
 (defun burly-bookmark-windows-with-projectile-name (name)
   "Bookmark the current frame's window configuration as NAME."
   (interactive
@@ -195,6 +179,7 @@
   :config
   (advice-add 'burly-bookmark-windows :override #'burly-bookmark-windows-with-projectile-name))
 
+;; Helm
 (use-package helm
   :init (helm-mode 1)
   :bind
@@ -239,6 +224,8 @@
   (setq helm-company-candidate-number-limit 3000)
   (bind-key "TAB" #'helm-company
             company-active-map))
+
+;; Helpful
 (use-package helpful
   :demand t)
 
@@ -246,6 +233,8 @@
   :demand
   :init
   (which-key-mode 1))
+
+;; Metals
 ;; Enable scala-mode for highlighting, indentation and motion commands
 (use-package scala-mode
   :interpreter ("scala" . scala-mode))
@@ -336,6 +325,7 @@
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
 
+;; multiple cursors
 (use-package multiple-cursors
   :config
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -343,15 +333,15 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
+;; open api
 (use-package openapi-yaml-mode
   :load-path "external-packages/openapi-yaml-mode"
   :defer t)
 
-;;;
-
+;; projectile
 (use-package projectile
   :init (projectile-mode +1)
-  :config (setq projectile-project-search-path '(("~/Projects/" . 2) ))
+  :config (setq projectile-project-search-path '(("~/repositories/" . 2) ))
   :bind-keymap ("C-c p" . projectile-command-map)
   )
 
@@ -374,10 +364,7 @@
 (use-package treemacs-all-the-icons
   :after (all-the-icons treemacs))
 
-;;; treemacs.el ends here
-;;;
-
-
+;; Git
 (use-package magit
   :bind (("C-x g" . magit-status)
          ("C-x C-g" . magit-status)))
@@ -388,11 +375,11 @@
   :after magit)
 
 ;;; prefix commit messages with jira ticket
-(use-package git-commit-jira-prefix
-  :load-path "libs/git-commit-jira-prefix"
-  :after git-commit
-  :commands git-commit-jira-prefix-init
-  :init (git-commit-jira-prefix-init))
+;; (use-package git-commit-jira-prefix
+;;   :load-path "libs/git-commit-jira-prefix"
+;;   :after git-commit
+;;   :commands git-commit-jira-prefix-init
+;;   :init (git-commit-jira-prefix-init))
 
 (use-package gh-notify
   :after forge
@@ -419,6 +406,7 @@
   :commands (git-link git-link-commit git-link-homepage)
   :bind ("C-c g l" . git-link))
 
+;; Window Management
 (winner-mode 1)
 
 ;; Window Management  ;;
@@ -448,3 +436,194 @@
   (dimmer-configure-posframe)
 			     
   (dimmer-mode t))
+
+;; format-all
+;; format all code 
+;; note: this config was lifted from here which is why it is commented out.
+;; https://ianyepan.github.io/posts/format-all/
+
+(use-package format-all
+  :ensure t
+  :demand
+  :preface
+  (defun ian/format-code ()
+    "Auto-format whole buffer."
+    (interactive)
+    (if (derived-mode-p 'prolog-mode)
+        (prolog-indent-buffer)
+      (format-all-buffer)))
+  ;; :config
+  ;; (global-set-key (kbd "M-F") #'ian/format-code)
+  ;; (add-hook 'prog-mode-hook #'format-all-ensure-formatter)
+  )
+
+;; no-littering
+(use-package no-littering
+  :ensure t
+  :demand t
+  :init
+  (setq no-littering-etc-directory "~/.cache/emacs/etc/"
+        no-littering-var-directory "~/.cache/emacs/var/")
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  :config
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+  (require 'recentf)
+  (add-to-list 'recentf-exclude no-littering-var-directory)
+  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (when (fboundp 'startup-redirect-eln-cache)
+    (startup-redirect-eln-cache
+     (convert-standard-filename
+      (expand-file-name  "eln-cache/" no-littering-var-directory)))))
+
+;; Spaceline
+(use-package spaceline
+  :ensure t
+  :demand t
+  :config
+  (spaceline-emacs-theme)
+  (use-package helm
+    :config
+    (spaceline-helm-mode)))
+
+;; UNDO TREE
+;; TODO. special command for undeo tree, instead of overriding C-u
+(use-package undo-tree
+  :demand
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
+;; Verb
+;;; verb --- this is where we configure verb to make queries in org mode
+
+(use-package verb
+  :ensure
+  :demand t
+  :after org
+  :custom
+  (verb-babel-timeout 30)
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (append org-babel-load-languages
+           '((verb . t)))))
+
+;; JWTS and whatnot
+
+(use-package request
+  :ensure
+  :demand t)
+
+(defun dgibs/bubauth (env bannoPassword)
+  "Run's Beelzebub tool to fetch an eauth token in ENV."
+  (shell-command-to-string
+   (concat "BEELZEBUB_PASS='" bannoPassword "' "
+           "beelzebub login --force --env " env)))
+
+(defun dgibs/get-ip-address ()
+  "Get the current public IP Address."
+  (request-response-data
+   (request "https://api.ipify.org/"
+     :sync t)))
+
+(defun dgibs/get-jwt-url (institutionId userId env)
+  "Construct the url needed to get a banno-jwt from an eauth cookie."
+  (format "http://%s-centralus-aks-shared-nodes.banno-%s.com:32598/v0/gateway/jwt?institutionId=%s&consumerUserId=%s&requestMethod=get&requestUrl=/a/mobile/api/v0/institutions/%s/users/%s/abilities"
+          env env institutionId userId institutionId userId))
+
+(defun dgibs/envTobeelzEnv (env)
+  "Convert a full Banno ENV name to a beelze name."
+  (if (string= env "production")
+      "PROD"
+    (if (string= env "uat")
+        "UAT"
+      env)))
+
+
+(defun dgibs/get-jwt (bannoPassword institutionId userId env)
+  (let ((ipaddress (dgibs/get-ip-address))
+        (eauth (dgibs/bubauth (dgibs/envTobeelzEnv env) bannoPassword))
+        (nodeGatewayUrl (dgibs/get-jwt-url institutionId userId env)))
+    (let ((cookies (format "eauth=%s" eauth)))
+      (message (concat "eauth: " eauth))
+      (message (concat "node-gateway: " nodeGatewayUrl))
+      (message (concat "ipaddress: " ipaddress))
+      `(,eauth ,(request-response-header
+                 (request nodeGatewayUrl
+                   :type "GET"
+                   :headers `(("Cookie" . ,cookies)
+                              ("X-Forwarded-For" . ,ipaddress))
+                   :sync t
+                   :success
+                   (cl-function
+                    (lambda (&key data &allow-other-keys)
+                      (message "Node Gateway request success: %s" data)))
+                   :error
+                   (cl-function (lambda (&rest args &key error-thrown &allow-other-keys)
+                                  (message "Got error: %S" error-thrown))))
+                 "X-BannoEnterprise0")))))
+
+
+(defmacro dgibs/verb-get-var (name &optional default)
+  `(progn
+     (when (stringp ',name)
+       (user-error "%s (got: \"%s\")"
+                   "[verb-var] Variable name must be a symbol, not a string"
+                   ',name))
+     (let ((value (assoc-string ',name verb--vars)))
+       (if (null value)
+           (,default)
+         (cdr value)))))
+
+(defvar-local dgibs/banno-pass nil
+  "Buffer local storage place for banno password so it doesn't need to be repeated anymore")
+(defun dgibs/banno-pass-unset ()
+  "Clears dgibs/banno-pass"
+  (interactive)
+  (setq dgibs/banno-pass nil))
+
+(defvar-local dgibs/banno-jwt nil
+  "Last Fetched banno Jwt")
+(defvar-local dgibs/banno-eauth nil
+  "Last Fetched banno eauth")
+(defun dgibs/banno-jwt-unset ()
+  "unset the banno jwt"
+  (interactive)
+  (setq dgibs/banno-jwt nil))
+(defun dgibs/banno-jwt-and-eauth-unset ()
+  "unset the banno jwt and eauth"
+  (interactive)
+  (setq dgibs/banno-jwt nil)
+  (setq dgibs/banno-eauth nil))
+
+(defun dgibs/is-jwt-expired (jwt)
+  (let* ((middle (car (cdr (split-string jwt "\\."))))
+         (jsonMiddle (base64-decode-string middle))
+         (exp (gethash "exp" (json-parse-string jsonMiddle)))
+         (curTime (float-time)))
+    (>= curTime exp)))
+
+(defun dgibs/verb-jwt ()
+  "Verb helper to get banno JWT assuming Beelzebub in installed."
+  (interactive)
+  (if (or (null dgibs/banno-jwt) (dgibs/is-jwt-expired dgibs/banno-jwt))
+      (dgibs/verb-get-var jwt
+                          (lambda ()
+                            (pcase-let ((`(,eauth, fetchedJwt) (dgibs/get-jwt
+                                                                (progn (when (null dgibs/banno-pass)
+                                                                         (setq dgibs/banno-pass (read-passwd "Banno Password? ")))
+                                                                       dgibs/banno-pass)
+                                                                (verb-var institutionId)
+                                                                (verb-var consumerUserId)
+                                                                (verb-var env))))
+                              (if (null fetchedJwt)
+                                  (error "%s: %s" "Failed to get JWT" fetchedJwt)
+                                (progn
+                                  (setq dgibs/banno-jwt fetchedJwt)
+                                  (setq dgibs/banno-eauth eauth)
+                                  fetchedJwt)))))
+    dgibs/banno-jwt))
+
+(defun dgibs/generate-uuid ()
+  (s-trim (shell-command-to-string "uuidgen")))

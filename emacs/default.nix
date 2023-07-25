@@ -17,7 +17,7 @@ in
       };
 
       xdg.configFile = {
-        "emacs/init.el".text = initFile;
+        "emacs/init.el".source = initFile;
         "emacs/early-init.el".source = ./early-init.el;
       };
 }

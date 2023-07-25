@@ -1,7 +1,7 @@
 ;; Early init
 
 ;; [[file:index.org::*Early init][Early init:1]]
-;; (require 'benchmark-init) 
+;; (require 'benchmark-init)
 ;; (add-hook 'after-init-hook 'benchmark-init/deactivate)
 
 ;; All our packages come from Nix

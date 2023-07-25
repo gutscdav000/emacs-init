@@ -24,5 +24,6 @@
     k9s
     redis
     #postgres-connect
+    silver-searcher
   ];
 }
