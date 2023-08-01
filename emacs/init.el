@@ -1,10 +1,19 @@
 ;; package --- summary This is my emacs noob config for a scala developer
 (require 'package)
 
-;; Add melpa to your packages repositories
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(defun ross/use-package-ensure-already-installed
+    (name _ensure state &optional _context)
+  "Value for `use-package-ensure-function` that assumes the package
+  is already installed.  This is true in our Nix environment."
+  (let ((autoloads-file-name (format "%s-autoloads" name)))
+    (with-demoted-errors "Error loading autoloads: %s"
+      (load autoloads-file-name t t))))
 
-(package-initialize)
+(setq use-package-ensure-function #'ross/use-package-ensure-already-installed)
+
+;; Add melpa to your packages repositories
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (package-initialize)
 
 ;;; standard configurations for things emacs does that annoy me:
 ;; don't create '#' prefixed lock files
@@ -16,18 +25,37 @@
 
 
 ;; Install use-package if not already installed
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
 
 (require 'use-package)
 
 ;; Enable defer and ensure by default for use-package
 ;; Keep auto-save/backup files separate from source code:  https://github.com/scalameta/metals/issues/1027
-(setq use-package-always-defer t
-      use-package-always-ensure t
-      backup-directory-alist `((".*" . ,temporary-file-directory))
-      auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+(setq
+ use-package-always-defer t
+ use-package-always-ensure t
+ backup-directory-alist `((".*" . ,temporary-file-directory))
+ auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+(defun dgibs/load-updates ()
+  "Loads the updated packages from Nix"
+  (interactive)
+  (load-file (concat user-emacs-directory "load-path.el")))
+
+(defun dgibs/load-updates-and-reinit ()
+  "Loads the updated packages from Nix and re-runs init"
+  (interactive)
+  (dgibs/load-updates)
+  (load-file (concat user-emacs-directory "init.el")))
+
+
+;; ensure command -> super, option -> meta. mostly a problem on home mac
+(setq mac-option-key-is-meta t)
+(setq mac-command-key-is-meta nil)
+(setq mac-command-modifier 'super)
+(setq mac-option-modifier 'meta)
 
 
 ;; GUI specific Options
@@ -39,12 +67,12 @@
   (load-theme 'afternoon t))
 
 (use-package vterm
- :commands vterm)
+  :commands vterm)
 (use-package helm-switch-shell
- :after helm
- :bind ("s-v". helm-switch-shell)
- ("C-c v". helm-switch-shell)
- :config (setq helm-switch-shell-new-shell-type 'vterm))
+  :after helm
+  :bind ("s-v". helm-switch-shell)
+  ("C-c v". helm-switch-shell)
+  :config (setq helm-switch-shell-new-shell-type 'vterm))
 
 
 ;; Navigation
@@ -59,6 +87,8 @@
 
 (use-package display-line-numbers
   :demand t
+  ;; tells it not to download and install since it is built into emacs
+  :ensure f
   :config
   (defun display-line-numbers--turn-on ()
     "turn on line numbers but excempting certain majore modes defined in `display-line-numbers-exempt-modes'"
@@ -160,10 +190,10 @@
   :after (projectile ace-window)
   :init (bufler-mode)
   :config
-   (setf bufler-groups (bufler-custom-groups))
-   :bind
-   ("C-x b" . bufler-switch-buffer)
-   ("C-x C-b" . bufler))
+  (setf bufler-groups (bufler-custom-groups))
+  :bind
+  ("C-x b" . bufler-switch-buffer)
+  ("C-x C-b" . bufler))
 
 ;; (use-package helm-bufler
 ;;   :after (helm bufler)
@@ -184,30 +214,27 @@
   :init (helm-mode 1)
   :bind
   ("C-x C-f" . helm-find-files)
-  ; ("C-x b" . helm-mini)
+					; ("C-x b" . helm-mini)
   ("M-x" . helm-M-x)
   ("M-y" . helm-show-kill-ring))
 
 (use-package helm-ag)
 
-;; (use-package helm-projectile
-;;   :after (helm projectile)
-;;   :config (helm-projectile-on))
 (use-package helm-projectile
   :demand t
   :after (helm projectile)
   :config
   (helm-projectile-on)
- (setq helm-source-projectile-projects-actions
+  (setq helm-source-projectile-projects-actions
 	(add-to-list 'helm-source-projectile-projects-actions
 		     '("Switch to Vterm `s-v`" .
 		       (lambda (project)
 			 (let
 			     ((default-directory project))
 			   (projectile-run-vterm))))
-	     t)
+		     t)
 	)
- )
+  )
 
 (use-package helm-swoop
   :commands (helm-swoop)
@@ -249,8 +276,8 @@
    'minibuffer-complete-word
    'self-insert-command
    minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
+  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
@@ -260,7 +287,7 @@
   ;; Optional - enable lsp-mode automatically in scala files
   ;; You could also swap out lsp for lsp-deffered in order to defer loading
   :hook  (scala-mode . lsp)
-         (lsp-mode . lsp-lens-mode)
+  (lsp-mode . lsp-lens-mode)
   :config
   ;; Uncomment following section if you would like to tune lsp-mode performance according to
   ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
@@ -298,7 +325,11 @@
 ;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
 ;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
 ;; to avoid odd behavior with snippets and indentation
-(use-package yasnippet)
+(use-package yasnippet
+  :demand t
+  :config
+  ;; enable yas global mode for better metals completion
+  (yas-global-mode 1))
 
 ;; Use company-capf as a completion provider.
 ;;
@@ -353,7 +384,7 @@
   :defer t
   :bind
   (:map global-map
-    ("C-x t t" . treemacs)))
+	("C-x t t" . treemacs)))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
@@ -434,17 +465,16 @@
   (dimmer-configure-magit)
   (dimmer-configure-org)
   (dimmer-configure-posframe)
-			     
+
   (dimmer-mode t))
 
 ;; format-all
-;; format all code 
+;; format all code
 ;; note: this config was lifted from here which is why it is commented out.
 ;; https://ianyepan.github.io/posts/format-all/
-
 (use-package format-all
   :ensure t
-  :demand
+  :demand t
   :preface
   (defun ian/format-code ()
     "Auto-format whole buffer."
@@ -452,9 +482,8 @@
     (if (derived-mode-p 'prolog-mode)
         (prolog-indent-buffer)
       (format-all-buffer)))
-  ;; :config
-  ;; (global-set-key (kbd "M-F") #'ian/format-code)
-  ;; (add-hook 'prog-mode-hook #'format-all-ensure-formatter)
+  :hook ((scala-mode . format-all-mode)
+         (nix-mode . format-all-mode))
   )
 
 ;; no-littering
@@ -627,3 +656,26 @@
 
 (defun dgibs/generate-uuid ()
   (s-trim (shell-command-to-string "uuidgen")))
+
+;; Copilot
+(use-package copilot
+  :ensure t
+  :demand t
+  :custom
+  (copilot-idle-delay 0.5)
+  ;; :bind
+  ;; (:map ross/toggles-map
+  ;;  ("<tab>" . copilot-mode))
+  :bind
+  (:map copilot-completion-map
+	("C-g" . 'copilot-clear-overlay)
+	("M-p" . 'copilot-previous-completion)
+	("M-n" . 'copilot-next-completion)
+	("<tab>" . 'copilot-accept-completion)
+	("M-f" . 'copilot-accept-completion-by-word)
+	("M-<return>" . 'copilot-accept-completion-by-line)))
+
+(use-package nix-mode
+  :ensure t
+  :demand t
+  :mode "\\.nix\\'")

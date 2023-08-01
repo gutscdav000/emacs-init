@@ -25,5 +25,8 @@
     redis
     #postgres-connect
     silver-searcher
+    hot
+    keepingYouAwake
+    rectangle
   ];
 }

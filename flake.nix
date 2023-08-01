@@ -15,24 +15,37 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs-overlay.url = "github:nix-community/emacs-overlay";
-  };
-  outputs = {nixpkgs, nix-darwin, home-manager, digital-nix, emacs-overlay, ...}:
-  let system = "x86_64-darwin";
-  in {
-    darwinConfigurations."C02D4849MD6T" = nix-darwin.lib.darwinSystem {
-      inherit system;
-      modules = [];
+    flakey = {
+      url = "github:zarthross/flakey";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    homeConfigurations."davidgutsch" = home-manager.lib.homeManagerConfiguration {
-      modules = [./home.nix];
-      pkgs = import nixpkgs{
+    copilot-el = {
+      url = "github:zerolfx/copilot.el";
+      flake = false;
+    };
+  };
+  outputs = { nixpkgs, nix-darwin, home-manager, digital-nix, emacs-overlay
+    , flakey, copilot-el, ... }@inputs:
+    let system = "x86_64-darwin";
+    in {
+      darwinConfigurations."C02D4849MD6T" = nix-darwin.lib.darwinSystem {
         inherit system;
-        overlays = [
-#	  (final: prev: digital-nix.packages.${system})
-#	  digital-nix.overlays.default
-	  emacs-overlay.overlay
-	];
+        modules = [ ];
       };
+      homeConfigurations."davidgutsch" =
+        home-manager.lib.homeManagerConfiguration {
+          modules = [ ./home.nix flakey.homeManagerModules.default ];
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              #	  (final: prev: digital-nix.packages.${system})
+              #	  digital-nix.overlays.default
+              emacs-overlay.overlay
+              flakey.overlays.default
+            ];
+          };
+          # Pass our flake inputs into the config
+          extraSpecialArgs = { inherit inputs; };
+        };
     };
-  };
 }

@@ -29,6 +29,22 @@
         "url": "ssh://git@github.com/Banno/beelzebub.git"
       }
     },
+    "copilot-el": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690249218,
+        "narHash": "sha256-TokWEMyWcqPU1V0FX7faxbl5gUBXf8DoqFeXHwIKP8Y=",
+        "owner": "zerolfx",
+        "repo": "copilot.el",
+        "rev": "4f83577b3a3c120e9b1063b5a793c20a6ed9ece0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zerolfx",
+        "repo": "copilot.el",
+        "type": "github"
+      }
+    },
     "digital-nix": {
       "inputs": {
         "banno-ca": "banno-ca",
@@ -121,6 +137,45 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_4": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1685518550,
+        "narHash": "sha256-o2d0KcvaXzTrPRIo0kOLV0/QXHhDQ5DTi+OxcjO8xqY=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "a1720a10a6cfe8234c0e93907ffe81be440f4cef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flakey": {
+      "inputs": {
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1689295230,
+        "narHash": "sha256-iTrKAZruSl/sMxk8KPALmYFGxq/NSkUWCbvVy+fv388=",
+        "owner": "zarthross",
+        "repo": "flakey",
+        "rev": "69c9db43001c3e2f329810516e9eb4f5ca9c18ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zarthross",
+        "repo": "flakey",
         "type": "github"
       }
     },
@@ -286,8 +341,10 @@
     },
     "root": {
       "inputs": {
+        "copilot-el": "copilot-el",
         "digital-nix": "digital-nix",
         "emacs-overlay": "emacs-overlay",
+        "flakey": "flakey",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_3"
@@ -316,6 +373,21 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
