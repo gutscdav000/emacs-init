@@ -32,7 +32,7 @@
         inherit system;
         modules = [ ];
       };
-      homeConfigurations."davidgutsch" =
+      HomeconfigurationsGG."dgutsch" =
         home-manager.lib.homeManagerConfiguration {
           modules = [ ./home.nix flakey.homeManagerModules.default ];
           pkgs = import nixpkgs {

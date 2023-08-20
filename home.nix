@@ -4,8 +4,8 @@
   imports = [./emacs ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "davidgutsch";
-  home.homeDirectory = "/Users/davidgutsch";
+  home.username = "dgutsch";
+  home.homeDirectory = "/Users/dgutsch";
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

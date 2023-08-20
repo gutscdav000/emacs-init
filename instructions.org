@@ -1,0 +1,135 @@
+* nix setup
+manual:
+** how to build home manager
+`home-manager build --flake .#davidgutsch`
+
+** the bellow allows us to not have to use the command above
+#+begin_src sh
+Ln -snf ~/repositories/oss/emacs-init/flake.nix ~/.config/home-manager/flake.nix
+#+end_src
+
+instead we run `home-manager build`
+
+** bootstrap home manager ( do this when nix breaks or with new mac)
+*** install nix(note we no longer want to use the determinate systems distro as it is fraught)
+#+begin_src sh
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+#+end_src
+*** we can run this because we already have the symlink
+the below was posibly experimental (it was new in the manual)
+#+begin_src sh
+nix run home-manager/master -- switch
+#+end_src
+OR maybe this the above failed
+#+begin_src sh
+nix run .#homeConfigurations.davidgutsch.activationPackage
+#+end_src
+
+*** last run didn't work :(
+#+begin_src sh
+  davidgutsch@C02D4849MD6T nix-tmp % home-manager build --flake .#davidgutsch
+zsh: command not found: home-manager
+davidgutsch@C02D4849MD6T nix-tmp % nix run home-manager/master -- switch
+warning: Git tree '/Users/davidgutsch/repositories/oss/emacs-init' is dirty
+[33.4 MiB DL]
+warning: updating lock file '/Users/davidgutsch/repositories/oss/emacs-init/flake.lock':
+• Updated input 'home-manager':
+    'github:nix-community/home-manager/0e4c33d76006c9080d2f228ba1c2308e3e4d7be6' (2023-05-01)
+  → 'github:nix-community/home-manager/f9edbedaf015013eb35f8caacbe0c9666bbc16af' (2023-04-10)
+• Added input 'home-manager/utils':
+    'github:numtide/flake-utils/cfacdce06f30d2b68473a46042957675eebb3401' (2023-04-11)
+• Added input 'home-manager/utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e' (2023-04-09)
+• Updated input 'nixpkgs':
+    'github:NixOS/nixpkgs/1a411f23ba299db155a5b45d5e145b85a7aafc42' (2023-05-02)
+  → 'github:NixOS/nixpkgs/b0671cbf1e5c443f7fbfd4941ee0f8a151435114' (2023-05-21)
+warning: Git tree '/Users/davidgutsch/repositories/oss/emacs-init' is dirty
+warning: Git tree '/Users/davidgutsch/repositories/oss/emacs-init' is dirty
+warning: Git tree '/Users/davidgutsch/repositories/oss/emacs-init' is dirty
+error:
+       … while calling the 'derivationStrict' builtin
+
+         at //builtin/derivation.nix:9:12: (source not available)
+
+       … while evaluating derivation 'home-manager-generation'
+         whose name attribute is located at /nix/store/0a9mxx52l6y6smb1jpnc6b6m78mac3l8-source/pkgs/stdenv/generic/make-derivation.nix:270:7
+
+       … while evaluating attribute 'buildCommand' of derivation 'home-manager-generation'
+
+         at /nix/store/0a9mxx52l6y6smb1jpnc6b6m78mac3l8-source/pkgs/build-support/trivial-builders.nix:81:14:
+
+           80|       enableParallelBuilding = true;
+           81|       inherit buildCommand name;
+             |              ^
+           82|       passAsFile = [ "buildCommand" ]
+
+       (stack trace truncated; use '--show-trace' to show the full trace)
+
+       error: list index 0 is out of bounds
+
+       at «none»:0: (source not available)
+#+end_src
+
+ nix run home-manager/master -- init --switch --flake .#davidgutsch
+
+
+ important commands;
+ #+begin_src sh
+  nix run home-manager/master -- switch
+  home-manager build --flake .#davidgutsch
+  nix run .#homeConfigurations.davidgutsch.activationPackage  
+ #+end_src
+
+ new potential errors?
+ warning: Git tree '/Users/davidgutsch/repositories/oss/emacs-init' is dirty
+trace: Emacs package display-line-numbers, declared wanted with use-package, not found.
+trace: Emacs package openapi-yaml-mode, declared wanted with use-package, not found.
+trace: Emacs package git-commit-jira-prefix, declared wanted with use-package, not found.
+davidgutsch@C02D4849MD6T emacs-init %
+
+ 
+* now using normal nix installer
+** when presented with the following error, we need to enable flakes
+*** from here: https://nixos.wiki/wiki/Flakes#Enable_flakes
+*** follow the instructions for permanent install and use the `~/.config/nix/nix.conf` path on darwin
+#+begin_src sh
+  error: experimental Nix feature 'nix-command' is disabled; use '--extra-experimental-features nix-command' to override
+#+end_src
+** if an upgrade ever kills nix, add the following if block into the following files:
+*** this is the encantation to add
+#+begin_src sh
+  # Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+#+end_src
+*** add it to these files
+**** `/etc/bashrc` `/etc/zshrc`
+
+
+** new state
+
+sudo launchctl bootout system/org.nixos.nix-daemon
+sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+sudo rm -rf "/etc/nix" "/nix" "/var/root/.nix-profile" "/var/root/.nix-defexpr" "/var/root/.nix-channels" "/var/root/.local/state/nix" "/var/root/.cache/nix" "/Users/dgutsch/.nix-profile" "/Users/dgutsch/.nix-defexpr" "/Users/dgutsch/.nix-channels" "/Users/dgutsch/.local/state/nix" "/Users/dgutsch/.cache/nix"
+
+ *** prepare nix volume
+ #+begin_src txt
+    Nix traditionally stores its data in the root directory /nix, but
+    macOS now (starting in 10.15 Catalina) has a read-only root directory.
+    To support Nix, I will create a volume and configure macOS to mount it
+    at /nix.
+
+~~> Configuring /etc/synthetic.conf to make a mount-point at /nix
+
+---- oh no! --------------------------------------------------------------------
+error: failed to configure synthetic.conf
+
+We'd love to help if you need it.
+
+You can open an issue at
+https://github.com/NixOS/nix/issues/new?labels=installer&template=installer.md
+
+Or get in touch with the community: https://nixos.org/community
+ #+end_src
