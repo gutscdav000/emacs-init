@@ -628,7 +628,7 @@
 
 (defun dgibs/is-jwt-expired (jwt)
   (let* ((middle (car (cdr (split-string jwt "\\."))))
-         (jsonMiddle (base64-decode-string middle))
+         (jsonMiddle (base64-decode-string middle t))
          (exp (gethash "exp" (json-parse-string jsonMiddle)))
          (curTime (float-time)))
     (>= curTime exp)))

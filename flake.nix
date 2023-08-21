@@ -10,10 +10,6 @@
       url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    digital-nix = {
-      url = "git+ssh://git@github.com/banno/digital-nix.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     flakey = {
       url = "github:zarthross/flakey";

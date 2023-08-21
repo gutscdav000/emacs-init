@@ -1,34 +1,5 @@
 {
   "nodes": {
-    "banno-ca": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-OmoDsVYD+Z0dXnXUc3crDyDdje4ByXi0jHBqBOjMafY=",
-        "type": "tarball",
-        "url": "https://banno-tooling.s3.amazonaws.com/certs/banno-ca-certs-2023-01-17.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://banno-tooling.s3.amazonaws.com/certs/banno-ca-certs-2023-01-17.tar.gz"
-      }
-    },
-    "beelzebub": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663001931,
-        "narHash": "sha256-5xEEXIh032FTQXVONOBkCuDJJsKmxWNY42iEG+VkuOg=",
-        "ref": "main",
-        "rev": "6c0a99914514a6a37a615ee49ce4e9f87838b1cf",
-        "revCount": 111,
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/beelzebub.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/beelzebub.git"
-      }
-    },
     "copilot-el": {
       "flake": false,
       "locked": {
@@ -45,37 +16,10 @@
         "type": "github"
       }
     },
-    "digital-nix": {
-      "inputs": {
-        "banno-ca": "banno-ca",
-        "beelzebub": "beelzebub",
-        "flake-utils": "flake-utils",
-        "gomod2nix": "gomod2nix",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "phongor": "phongor",
-        "postgres-connect": "postgres-connect",
-        "sbt": "sbt"
-      },
-      "locked": {
-        "lastModified": 1676644904,
-        "narHash": "sha256-Wwi7pXGjoUedSL5xaqGBTSa4QwvBes6oxWo9WflZBAk=",
-        "ref": "refs/heads/main",
-        "rev": "5339db18f363d0947fd08fb93f8b16386db7a51a",
-        "revCount": 35,
-        "type": "git",
-        "url": "ssh://git@github.com/banno/digital-nix.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/banno/digital-nix.git"
-      }
-    },
     "emacs-overlay": {
       "inputs": {
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": "nixpkgs_2",
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
@@ -93,36 +37,6 @@
       }
     },
     "flake-utils": {
-      "locked": {
-        "lastModified": 1676283394,
-        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_2": {
-      "locked": {
-        "lastModified": 1667395993,
-        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_3": {
       "inputs": {
         "systems": "systems"
       },
@@ -140,7 +54,7 @@
         "type": "github"
       }
     },
-    "flake-utils_4": {
+    "flake-utils_2": {
       "inputs": {
         "systems": "systems_2"
       },
@@ -160,7 +74,7 @@
     },
     "flakey": {
       "inputs": {
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -176,25 +90,6 @@
       "original": {
         "owner": "zarthross",
         "repo": "flakey",
-        "type": "github"
-      }
-    },
-    "gomod2nix": {
-      "inputs": {
-        "nixpkgs": "nixpkgs",
-        "utils": "utils"
-      },
-      "locked": {
-        "lastModified": 1662501203,
-        "narHash": "sha256-4BKeqCX2zwgBiTdlc2DjGQ0CttKm0vSw0r/bdFdM/PQ=",
-        "owner": "tweag",
-        "repo": "gomod2nix",
-        "rev": "89cd0675b96775aa3ee86e7c0cf5bc238dd27976",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tweag",
-        "repo": "gomod2nix",
         "type": "github"
       }
     },
@@ -242,16 +137,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1658285632,
-        "narHash": "sha256-zRS5S/hoeDGUbO+L95wXG9vJNwsSYcl93XiD0HQBXLk=",
+        "lastModified": 1690179384,
+        "narHash": "sha256-+arbgqFTAtoeKtepW9wCnA0njCOyoiDFyl0Q0SBSOtE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5342fc6fb59d0595d26883c3cadff16ce58e44f3",
+        "rev": "b12803b6d90e2e583429bb79b859ca53c348b39a",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "master",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -274,22 +169,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1690179384,
-        "narHash": "sha256-+arbgqFTAtoeKtepW9wCnA0njCOyoiDFyl0Q0SBSOtE=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b12803b6d90e2e583429bb79b859ca53c348b39a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1690181313,
         "narHash": "sha256-NO5coXHSVYqxiQjh0XcQmnmvUrxPWKnUu8e0Ky2+5TI=",
         "owner": "NixOS",
@@ -304,72 +183,14 @@
         "type": "github"
       }
     },
-    "phongor": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1662128282,
-        "narHash": "sha256-wR2qUGztomf1SyiGvB4LB4al4WYSbqL8HCKtq5DDkUI=",
-        "ref": "main",
-        "rev": "0a48f6245bc04f9e01f90d50707c4e47e6fe2d46",
-        "revCount": 15,
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/phongor.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/phongor.git"
-      }
-    },
-    "postgres-connect": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1660140138,
-        "narHash": "sha256-JqJFZbRyQZvAsZ4qkvYXafL39GhSyc7HIdLU0tcCBHw=",
-        "ref": "main",
-        "rev": "af6f425cbcfdb407019acff8320659abd6f1ceac",
-        "revCount": 125,
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/postgres-connect.git"
-      },
-      "original": {
-        "ref": "main",
-        "rev": "af6f425cbcfdb407019acff8320659abd6f1ceac",
-        "type": "git",
-        "url": "ssh://git@github.com/Banno/postgres-connect.git"
-      }
-    },
     "root": {
       "inputs": {
         "copilot-el": "copilot-el",
-        "digital-nix": "digital-nix",
         "emacs-overlay": "emacs-overlay",
         "flakey": "flakey",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs_3"
-      }
-    },
-    "sbt": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "digital-nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1675083208,
-        "narHash": "sha256-+sSFhSpV2jckr1qYlX/SaxQ6IdpagD6o4rru/3HAl0I=",
-        "owner": "zaninime",
-        "repo": "sbt-derivation",
-        "rev": "92d6d6d825e3f6ae5642d1cce8ff571c3368aaf7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zaninime",
-        "repo": "sbt-derivation",
-        "type": "github"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {
@@ -399,21 +220,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "utils": {
-      "locked": {
-        "lastModified": 1653893745,
-        "narHash": "sha256-0jntwV3Z8//YwuOjzhV2sgJJPt+HY6KhU7VZUL0fKZQ=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "1ed9fb1935d260de5fe1c2f7ee0ebaae17ed2fa1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
         "type": "github"
       }
     }

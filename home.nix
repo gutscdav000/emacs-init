@@ -23,7 +23,7 @@
   home.packages = with pkgs; [
     k9s
     redis
-    postgres-connect
+ #   postgres-connect
     silver-searcher
     hot
     keepingYouAwake
