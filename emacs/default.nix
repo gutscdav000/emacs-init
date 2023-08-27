@@ -5,7 +5,7 @@ in {
     pkgs.nodejs
     pkgs.nixfmt
     pkgs.scalafmt
-
+    pkgs.nodePackages_latest.pyright
   ];
   programs.emacs = {
     enable = true;

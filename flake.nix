@@ -30,7 +30,10 @@
       };
       homeConfigurations."dgutsch" =
         home-manager.lib.homeManagerConfiguration {
-          modules = [ ./home.nix flakey.homeManagerModules.default ];
+          modules = [
+            ./home.nix
+            flakey.homeManagerModules.default
+          ];
           pkgs = import nixpkgs {
             inherit system;
             overlays = [

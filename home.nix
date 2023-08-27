@@ -23,10 +23,10 @@
   home.packages = with pkgs; [
     k9s
     redis
- #   postgres-connect
     silver-searcher
     hot
     keepingYouAwake
     rectangle
+    pkgs.nodePackages_latest.pyright
   ];
 }

@@ -322,6 +322,13 @@
 (use-package lsp-ui
   :after lsp-mode)
 
+;; Python LSP test
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
 ;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
 ;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
 ;; to avoid odd behavior with snippets and indentation
@@ -365,9 +372,9 @@
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
 ;; open api
-(use-package openapi-yaml-mode
-  :load-path "external-packages/openapi-yaml-mode"
-  :defer t)
+;; (use-package openapi-yaml-mode
+;;   :load-path "external-packages/openapi-yaml-mode"
+;;   :defer t)
 
 ;; projectile
 (use-package projectile
