@@ -23,6 +23,9 @@
 ;; turn off annoying sound at end of buffer on scroll
 (setq ring-bell-function 'ignore)
 
+;; set larger font size for curved monitor
+(set-face-attribute 'default nil :height 140)
+
 
 ;; Install use-package if not already installed
 ;; (unless (package-installed-p 'use-package)
@@ -493,13 +496,22 @@
   :init
   (setq no-littering-etc-directory "~/.cache/emacs/etc/"
         no-littering-var-directory "~/.cache/emacs/var/")
-  (setq auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   :config
+  (setq auto-save-file-name-transforms
+        `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
+           ,(concat temporary-file-directory "\\2") t)
+          ("\\`\\(/tmp\\|/dev/shm\\)\\([^/]*/\\)*\\(.*\\)\\'" "\\3")
+          (".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (setq backup-directory-alist
+        `(("\\`/tmp/" . nil)
+          ("\\`/dev/shm/" . nil)
+          (".*" . ,(no-littering-expand-var-file-name "backup/"))))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
   (require 'recentf)
-  (add-to-list 'recentf-exclude no-littering-var-directory)
-  (add-to-list 'recentf-exclude no-littering-etc-directory)
+  (add-to-list 'recentf-exclude
+               (recentf-expand-file-name no-littering-var-directory))
+  (add-to-list 'recentf-exclude
+               (recentf-expand-file-name no-littering-etc-directory))
   (when (fboundp 'startup-redirect-eln-cache)
     (startup-redirect-eln-cache
      (convert-standard-filename
@@ -516,12 +528,18 @@
     (spaceline-helm-mode)))
 
 ;; UNDO TREE
-;; TODO. special command for undeo tree, instead of overriding C-u
 (use-package undo-tree
-  :demand
   :ensure t
+  :demand t
+  :delight
   :config
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  (setq undo-tree-history-directory-alist
+        `((".*\.gpg" . "/dev/null")
+          (,(concat "\\`" (file-name-as-directory temporary-file-directory)))
+          ("\\`/tmp/" . nil)
+          ("\\`/dev/shm/" . nil)
+          ("." . ,(no-littering-expand-var-file-name "undo-tree-hist/")))))
 
 ;; Verb
 ;;; verb --- this is where we configure verb to make queries in org mode
