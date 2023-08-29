@@ -25,6 +25,8 @@
     redis
     #postgres-connect
     silver-searcher
+    ripgrep
+    unstable.metals
     hot
     keepingYouAwake
     rectangle

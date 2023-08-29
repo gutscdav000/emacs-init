@@ -334,6 +334,17 @@
   ;; enable yas global mode for better metals completion
   (yas-global-mode 1))
 
+
+;; Jump to definition that works even when metals doesn't
+;; requires silver searcher or ripgrep. but we're using ripgrep
+;; uses: M-. find def. M-? find references. M-, go back. C-M-, go forward
+(use-package dumb-jump
+  :ensure t
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :custom
+  (dumb-jump-force-searcher 'rg))
+
 ;; Use company-capf as a completion provider.
 ;;
 ;; To Company-lsp users:

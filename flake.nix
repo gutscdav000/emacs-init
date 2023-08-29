@@ -1,5 +1,6 @@
 {
   inputs = {
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";    
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.05-darwin";
     nix-darwin = {
       url = "github:lnl7/nix-darwin/master";
@@ -24,7 +25,7 @@
       flake = false;
     };
   };
-  outputs = { nixpkgs, nix-darwin, home-manager, digital-nix, emacs-overlay
+  outputs = { nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, digital-nix, emacs-overlay
     , flakey, copilot-el, ... }@inputs:
     let system = "x86_64-darwin";
     in {
@@ -40,6 +41,9 @@
             overlays = [
               #	  (final: prev: digital-nix.packages.${system})
               #	  digital-nix.overlays.default
+              (final: prev: {
+                unstable = nixpkgs-unstable.legacyPackages.${system};
+              })
               emacs-overlay.overlay
               flakey.overlays.default
             ];
