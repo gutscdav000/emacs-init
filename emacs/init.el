@@ -345,6 +345,27 @@
   :custom
   (dumb-jump-force-searcher 'rg))
 
+;; TODO notes
+;; LSP-UI and window configs
+;; spaceline. don't use spaceline all the icons
+;; fontain plugin for beautification (for presenation mode too)
+;; modus themes. looks nice and themes tabs.
+;; turned off  scroll bars
+;; disable menu bar tool bar
+;; TAB BARS
+;; hide X on tab bar
+;; add tab numbers
+;; spacing on tab bar
+;; look at DIALOGUE WINDOW settings
+;; look at LOOK AND FEEL
+;; kind icon: https://github.com/jdtsmith/kind-icon
+;; ^ might require a switch to corfu. might still work with company.
+;; COMPANY. enable global company-mode. then bind helm-company to tab
+;; https://github.com/Sodel-the-Vociferous/helm-company
+;;
+
+;; mode line tool. power-mode-line
+
 ;; Use company-capf as a completion provider.
 ;;
 ;; To Company-lsp users:
@@ -536,7 +557,22 @@
   (spaceline-emacs-theme)
   (use-package helm
     :config
-    (spaceline-helm-mode)))
+    (spaceline-helm-mode))
+  :hook
+  (nyan-mode 1)
+  )
+
+;; nyan-cat
+(use-package nyan-mode
+  :ensure t
+  :demand t
+  :init
+  (nyan-mode 1)
+  :config
+  (nyan-start-animation)
+  (nyan-start-music)
+  )
+
 
 ;; UNDO TREE
 (use-package undo-tree
