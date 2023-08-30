@@ -549,17 +549,77 @@
      (convert-standard-filename
       (expand-file-name  "eln-cache/" no-littering-var-directory)))))
 
+
+;; Looks & Feels
+;; simple stuff
+
+;;disable scroll
+(use-package scroll-bar
+  :config
+  (scroll-bar-mode -1))
+
+(use-package mode-line-bell
+  :ensure
+  :hook (on-first-input . mode-line-bell-mode))
+
+;; stop scrolling at cursor. an homage to my one emacs customization at IU.
+(global-set-key (kbd "C-v") 'dmg/scroll-down-to-cursor)
+(global-set-key (kbd "M-v") 'dmg/scroll-up-to-cursor)
+
+(defun dmg/scroll-down-to-cursor ()
+  "scroll down half a page while keeping the cursor centered"
+  (interactive)
+  (let ((ln (line-number-at-pos (point)))
+	(lmax (line-number-at-pos (point-max)))
+	(window-bottom (line-number-at-pos (window-end))))
+    (cond ((= ln 1)
+	   (progn (message "ln1 ln=%d lmax=%d" ln lmax) (move-to-window-line nil)))
+	  ;; (window-bottom-2) + (window-height-4) >= buffer-end (e.g. lmax)
+	  ;; -2 because of weird buffer height discrepency
+	  ;; -4 because (window-body-height) was off by that
+	  ((>= (+ (- window-bottom 2) (- (window-body-height) 4)) lmax)
+	   (progn (message "ln=at-end ln=%d lmax=%d" ln lmax)
+		  (goto-line (- lmax (- (window-body-height) 4))) (recenter 0)))
+	  ((= (line-number-at-pos (window-start)) ln)
+	   (progn (message "ln=w-start ln=%d lmax=%d" ln lmax) (move-to-window-line -1) (recenter 0)))
+	  (t
+	   (progn (message "else ln=%d lmax=%d" ln lmax) (recenter 0)))
+      )
+    )
+  )
+
+;;TODO: if cursor is > (line-number-at-pos (point-max) it won't scroll up
+(defun dmg/scroll-up-to-cursor ()
+  "Scroll up to the cursor while trying to keep the cursor centered."
+  (interactive)
+  (let ((ln (line-number-at-pos (point)))
+        (lmin (line-number-at-pos (point-min))))
+    ;; missing base case, if cursor at or near end of file
+    (cond ((= ln lmin)
+	   (progn (message "ln = lmin %d window end %d" ln (line-number-at-pos (window-end)))  (recenter -1)))
+          ;;((= ln ln) (recenter -1)) ;; this seems like a dumb case.. should be last line of file?
+          ((>= (- (line-number-at-pos (window-end)) 2) ln)
+	   (progn (message "ln = w-end %d window end %d" ln (line-number-at-pos (window-end))) (move-to-window-line 0) (recenter -1)))
+          (t
+	   (progn (message "ln = else %d window end %d" ln (line-number-at-pos (window-end))) (recenter -1)))
+      )
+    )
+  )
+
+
 ;; Spaceline
 (use-package spaceline
   :ensure t
   :demand t
   :config
   (spaceline-emacs-theme)
+  (spaceline-toggle-nyan-cat-on)
   (use-package helm
     :config
     (spaceline-helm-mode))
-  :hook
-  (nyan-mode 1)
+  ;; (add-hook 'spaceline-mode-hook 'nyan-mode)
+  ;; :hook
+  ;; (nyan-mode 1)
   )
 
 ;; nyan-cat
@@ -573,6 +633,29 @@
   (nyan-start-music)
   )
 
+;; Fontaine
+;; (use-package fontaine
+;;   :ensure t
+;;   :demand t
+;;   :custom
+;;   (fontaine-presets
+;;    `((regular
+;;       :default-height 120
+;;       :line-spacing 0.25)
+;;      (small
+;;       :default-height 100
+;;       :line-spacing 0.2)
+;;      (presentation
+;;       :default-height 210
+;;       :line-spacing 0.125)
+;;      (t ;; defaults
+;;       :default-family
+;;       ,(cond
+;;         ((find-font (font-spec :name "FiraCode Nerd Font"))
+;;          "FiraCode Nerd Font")
+;;         ("Monospace")))))
+;;   :config
+;;   (fontaine-set-preset (or fontaine-current-preset 'regular)))
 
 ;; UNDO TREE
 (use-package undo-tree
