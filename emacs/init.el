@@ -60,6 +60,9 @@
 (setq mac-command-modifier 'super)
 (setq mac-option-modifier 'meta)
 
+(use-package delight
+    :ensure t)
+
 
 ;; GUI specific Options
 ;; https://github.com/osener/emacs-afternoon-theme/tree/master
@@ -67,7 +70,14 @@
   :if window-system
   :init
   ;; Set default theme
-  (load-theme 'afternoon t))
+  (load-theme 'afternoon :no-confirm :no-enable))
+
+;; from here: https://github.com/protesilaos/modus-themes
+(use-package modus-themes
+  :ensure t
+  :demand t
+  :config
+  (load-theme 'modus-vivendi-tinted :no-confirm))
 
 (use-package vterm
   :commands vterm)
@@ -215,6 +225,7 @@
 ;; Helm
 (use-package helm
   :init (helm-mode 1)
+  :delight
   :bind
   ("C-x C-f" . helm-find-files)
 					; ("C-x b" . helm-mini)
@@ -261,6 +272,7 @@
 
 (use-package which-key
   :demand
+  :delight
   :init
   (which-key-mode 1))
 
@@ -284,7 +296,8 @@
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :delight flycheck-mode)
 
 (use-package lsp-mode
   ;; Optional - enable lsp-mode automatically in scala files
@@ -330,10 +343,22 @@
 ;; to avoid odd behavior with snippets and indentation
 (use-package yasnippet
   :demand t
+  :delight yas-minor-mode
   :config
   ;; enable yas global mode for better metals completion
   (yas-global-mode 1))
 
+;; these disallow displaying of these specific minor modes in the modline
+(use-package eldoc
+  :delight eldoc-mode)
+
+;; TODO: this isn't working, see here for details
+;; https://elpa.gnu.org/packages/delight.html
+(use-package auto-revert
+  :delight auto-revert-mode)
+
+(use-package auto-revert
+  :delight global-auto-revert-mode)
 
 ;; Jump to definition that works even when metals doesn't
 ;; requires silver searcher or ripgrep. but we're using ripgrep
@@ -346,25 +371,13 @@
   (dumb-jump-force-searcher 'rg))
 
 ;; TODO notes
-;; LSP-UI and window configs
-;; spaceline. don't use spaceline all the icons
 ;; fontain plugin for beautification (for presenation mode too)
-;; modus themes. looks nice and themes tabs.
-;; turned off  scroll bars
-;; disable menu bar tool bar
-;; TAB BARS
 ;; hide X on tab bar
 ;; add tab numbers
 ;; spacing on tab bar
-;; look at DIALOGUE WINDOW settings
 ;; look at LOOK AND FEEL
 ;; kind icon: https://github.com/jdtsmith/kind-icon
 ;; ^ might require a switch to corfu. might still work with company.
-;; COMPANY. enable global company-mode. then bind helm-company to tab
-;; https://github.com/Sodel-the-Vociferous/helm-company
-;;
-
-;; mode line tool. power-mode-line
 
 ;; Use company-capf as a completion provider.
 ;;
@@ -572,23 +585,20 @@
   (let ((ln (line-number-at-pos (point)))
 	(lmax (line-number-at-pos (point-max)))
 	(window-bottom (line-number-at-pos (window-end))))
-    (cond ((= ln 1)
-	   (progn (message "ln1 ln=%d lmax=%d" ln lmax) (move-to-window-line nil)))
+    (cond ((= ln 1) (move-to-window-line nil))
 	  ;; (window-bottom-2) + (window-height-4) >= buffer-end (e.g. lmax)
 	  ;; -2 because of weird buffer height discrepency
 	  ;; -4 because (window-body-height) was off by that
 	  ((>= (+ (- window-bottom 2) (- (window-body-height) 4)) lmax)
-	   (progn (message "ln=at-end ln=%d lmax=%d" ln lmax)
-		  (goto-line (- lmax (- (window-body-height) 4))) (recenter 0)))
+	   (progn (goto-line (- lmax (- (window-body-height) 4))) (recenter 0)))
 	  ((= (line-number-at-pos (window-start)) ln)
-	   (progn (message "ln=w-start ln=%d lmax=%d" ln lmax) (move-to-window-line -1) (recenter 0)))
-	  (t
-	   (progn (message "else ln=%d lmax=%d" ln lmax) (recenter 0)))
-      )
+	   (progn (move-to-window-line -1) (recenter 0)))
+	  (t (recenter 0)))
     )
   )
 
 ;;TODO: if cursor is > (line-number-at-pos (point-max) it won't scroll up
+;;      one other weird bug that only happened once today...
 (defun dmg/scroll-up-to-cursor ()
   "Scroll up to the cursor while trying to keep the cursor centered."
   (interactive)
@@ -602,7 +612,7 @@
 	   (progn (message "ln = w-end %d window end %d" ln (line-number-at-pos (window-end))) (move-to-window-line 0) (recenter -1)))
           (t
 	   (progn (message "ln = else %d window end %d" ln (line-number-at-pos (window-end))) (recenter -1)))
-      )
+	  )
     )
   )
 
@@ -614,12 +624,10 @@
   :config
   (spaceline-emacs-theme)
   (spaceline-toggle-nyan-cat-on)
+  (spaceline-toggle-version-control-off)
   (use-package helm
     :config
     (spaceline-helm-mode))
-  ;; (add-hook 'spaceline-mode-hook 'nyan-mode)
-  ;; :hook
-  ;; (nyan-mode 1)
   )
 
 ;; nyan-cat
@@ -630,7 +638,7 @@
   (nyan-mode 1)
   :config
   (nyan-start-animation)
-  (nyan-start-music)
+  (nyan-bar-length 4)
   )
 
 ;; Fontaine
@@ -656,6 +664,8 @@
 ;;         ("Monospace")))))
 ;;   :config
 ;;   (fontaine-set-preset (or fontaine-current-preset 'regular)))
+
+
 
 ;; UNDO TREE
 (use-package undo-tree
