@@ -575,47 +575,18 @@
   :ensure
   :hook (on-first-input . mode-line-bell-mode))
 
-;; stop scrolling at cursor. an homage to my one emacs customization at IU.
-(global-set-key (kbd "C-v") 'dmg/scroll-down-to-cursor)
-(global-set-key (kbd "M-v") 'dmg/scroll-up-to-cursor)
-
-(defun dmg/scroll-down-to-cursor ()
-  "scroll down half a page while keeping the cursor centered"
-  (interactive)
-  (let ((ln (line-number-at-pos (point)))
-	(lmax (line-number-at-pos (point-max)))
-	(window-bottom (line-number-at-pos (window-end))))
-    (cond ((= ln 1) (move-to-window-line nil))
-	  ;; (window-bottom-2) + (window-height-4) >= buffer-end (e.g. lmax)
-	  ;; -2 because of weird buffer height discrepency
-	  ;; -4 because (window-body-height) was off by that
-	  ((>= (+ (- window-bottom 2) (- (window-body-height) 4)) lmax)
-	   (progn (goto-line (- lmax (- (window-body-height) 4))) (recenter 0)))
-	  ((= (line-number-at-pos (window-start)) ln)
-	   (progn (move-to-window-line -1) (recenter 0)))
-	  (t (recenter 0)))
-    )
+(use-package golden-ratio-scroll-screen
+  :ensure t
+  :demand t
+  :config
+  (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+  (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
   )
 
-;;TODO: if cursor is > (line-number-at-pos (point-max) it won't scroll up
-;;      one other weird bug that only happened once today...
-(defun dmg/scroll-up-to-cursor ()
-  "Scroll up to the cursor while trying to keep the cursor centered."
-  (interactive)
-  (let ((ln (line-number-at-pos (point)))
-        (lmin (line-number-at-pos (point-min))))
-    ;; missing base case, if cursor at or near end of file
-    (cond ((= ln lmin)
-	   (progn (message "ln = lmin %d window end %d" ln (line-number-at-pos (window-end)))  (recenter -1)))
-          ;;((= ln ln) (recenter -1)) ;; this seems like a dumb case.. should be last line of file?
-          ((>= (- (line-number-at-pos (window-end)) 2) ln)
-	   (progn (message "ln = w-end %d window end %d" ln (line-number-at-pos (window-end))) (move-to-window-line 0) (recenter -1)))
-          (t
-	   (progn (message "ln = else %d window end %d" ln (line-number-at-pos (window-end))) (recenter -1)))
-	  )
-    )
-  )
-
+(use-package hl-line
+  :init
+  (global-hl-line-mode)
+)
 
 ;; Spaceline
 (use-package spaceline
@@ -812,6 +783,7 @@
                                   fetchedJwt)))))
     dgibs/banno-jwt))
 
+;;TODO: replace this with the uuidgen package
 (defun dgibs/generate-uuid ()
   (s-trim (shell-command-to-string "uuidgen")))
 
@@ -839,13 +811,13 @@
   :commands (org-ai-mode
              org-ai-global-mode)
   :init
-  (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
-  (org-ai-global-mode) ; installs global keybindings on C-c M-a
+  ;;(add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
+  :bind-keymap ("C-c M-a" . org-ai-global-prefix-map)
+  ;;(org-ai-global-mode) ; installs global keybindings on C-c M-a
   :config
   (setq org-ai-default-chat-model "gpt-4") ; if you are on the gpt-4 beta:
   (org-ai-install-yasnippets)) ; if you are using yasnippet and want `ai` snippets
 
 (use-package nix-mode
   :ensure t
-  :demand t
   :mode "\\.nix\\'")

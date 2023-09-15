@@ -10,7 +10,7 @@ in {
   programs.emacs = {
     enable = true;
     package = pkgs.emacsWithPackagesFromUsePackage {
-      package = pkgs.emacs;
+      package = pkgs.emacs29;
       override = epkgs:
         epkgs // {
           copilot = let
