@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [./emacs ];
+  imports = [ ./emacs ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "davidgutsch";
@@ -30,5 +30,8 @@
     hot
     keepingYouAwake
     rectangle
+    pkgs.hunspell
+    pkgs.hunspellDicts.en_US
   ];
+
 }

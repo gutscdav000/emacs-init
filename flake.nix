@@ -20,22 +20,27 @@
       url = "github:zarthross/flakey";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    base-emacs = {      
+      url = "github:gutscdav000/base-emacs-home-manager-module";
+      # url = "/Users/davidgutsch/repositories/oss/base-emacs-home-manager-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     copilot-el = {
       url = "github:zerolfx/copilot.el";
       flake = false;
     };
   };
   outputs = { nixpkgs, nixpkgs-unstable, nix-darwin, home-manager, digital-nix, emacs-overlay
-    , flakey, copilot-el, ... }@inputs:
+    , flakey, copilot-el, base-emacs, ... }@inputs:
     let system = "x86_64-darwin";
-    in {
+    in rec {
       darwinConfigurations."C02D4849MD6T" = nix-darwin.lib.darwinSystem {
         inherit system;
         modules = [ ];
       };
       homeConfigurations."davidgutsch" =
         home-manager.lib.homeManagerConfiguration {
-          modules = [ ./home.nix flakey.homeManagerModules.default ];
+          modules = [ ./home.nix flakey.homeManagerModules.default base-emacs.homeManagerModules.base-emacs ];
           pkgs = import nixpkgs {
             inherit system;
             overlays = [

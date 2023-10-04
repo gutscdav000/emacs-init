@@ -12,6 +12,26 @@
         "url": "https://banno-tooling.s3.amazonaws.com/certs/banno-ca-certs-2023-01-17.tar.gz"
       }
     },
+    "base-emacs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1696444812,
+        "narHash": "sha256-141GQOFoOYS7gmOEtzIkZ2y57WkAYFwbXG/iHY6cNtM=",
+        "owner": "gutscdav000",
+        "repo": "base-emacs-home-manager-module",
+        "rev": "2461875b90eace18a571e17a17534b86751f48e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gutscdav000",
+        "repo": "base-emacs-home-manager-module",
+        "type": "github"
+      }
+    },
     "beelzebub": {
       "flake": false,
       "locked": {
@@ -357,6 +377,7 @@
     },
     "root": {
       "inputs": {
+        "base-emacs": "base-emacs",
         "copilot-el": "copilot-el",
         "digital-nix": "digital-nix",
         "emacs-overlay": "emacs-overlay",
