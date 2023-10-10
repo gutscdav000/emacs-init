@@ -19,9 +19,13 @@
       url = "github:zerolfx/copilot.el";
       flake = false;
     };
+    base-emacs = {
+      url = "github:gutscdav000/base-emacs-home-manager-module";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = { nixpkgs, nix-darwin, home-manager, emacs-overlay
-    , flakey, copilot-el, ... }@inputs:
+    , flakey, copilot-el, base-emacs, ... }@inputs:
     let system = "x86_64-darwin";
     in {
       darwinConfigurations."dgutsch" = nix-darwin.lib.darwinSystem {
@@ -33,6 +37,7 @@
           modules = [
             ./home.nix
             flakey.homeManagerModules.default
+            base-emacs.homeManagerModules.base-emacs
           ];
           pkgs = import nixpkgs {
             inherit system;

@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "base-emacs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1696447187,
+        "narHash": "sha256-RkpUTmJTuWnocBawtNRWX30cvBV75qfifJz94akFL2Y=",
+        "owner": "gutscdav000",
+        "repo": "base-emacs-home-manager-module",
+        "rev": "b04c4b149b50a807d24b4db4e458263f9fe63113",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gutscdav000",
+        "repo": "base-emacs-home-manager-module",
+        "type": "github"
+      }
+    },
     "copilot-el": {
       "flake": false,
       "locked": {
@@ -185,6 +205,7 @@
     },
     "root": {
       "inputs": {
+        "base-emacs": "base-emacs",
         "copilot-el": "copilot-el",
         "emacs-overlay": "emacs-overlay",
         "flakey": "flakey",
