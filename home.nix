@@ -30,8 +30,11 @@
     hot
     keepingYouAwake
     rectangle
-    pkgs.hunspell
-    pkgs.hunspellDicts.en_US
+#    pkgs.hunspell
+#    pkgs.hunspellDicts.en_US
+    # Git
+    ghorg
+    gh
   ];
 
 }

@@ -18,3 +18,12 @@ add the following to the end of an org file that you want org-ai-mode enabled it
 # eval: (org-ai-mode)
 # End:
 ```
+
+## only install a package in a shell:
+```
+
+# install software in a single shell sesion:
+`nix shell nixpkgs#gh`
+
+
+
