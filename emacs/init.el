@@ -1,12 +1,3 @@
-;; this gave me other issues and wasn't worth the squeeze
-;; (use-package jinx
-;;         :ensure t
-;;         :init
-;;         (global-jinx-mode)
-;;         :commands (global-jinx-mode jinx-mode jinx-correct jinx-languages)
-;;         :bind
-;;         ([remap ispell-word] . jinx-correct)
-;;         ("C-M-$" . jinx-languages))
 
 (defun dgibs/project-in-new-tab ()
   "Open a project in a new tab and rename the tab"
@@ -24,3 +15,9 @@
   :bind
   (("C-x t P" . dgibs/project-in-new-tab)
    ("C-x t R" . dgibs/project-rename-tab-with-buffer)))
+
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
+  )
