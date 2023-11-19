@@ -25,5 +25,8 @@ add the following to the end of an org file that you want org-ai-mode enabled it
 # install software in a single shell sesion:
 `nix shell nixpkgs#gh`
 
-
+## lsp-mode using the wrong root directory for a project?
+sometimes it will default to `~/` or `~/repositories` to fix this use the following command(s), then reimport metals projects
+- `lsp-workplace-remove-all-folders`
+- `lsp-workplace-folders-remove`
 
