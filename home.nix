@@ -21,17 +21,20 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    k9s
+
     redis
-    #postgres-connect
+    # tools
+    k9s
     silver-searcher
     ripgrep
+    #postgres-connect
+    # programming languages
+    python3
     unstable.metals
+    # desktop apps
     hot
     keepingYouAwake
     rectangle
-#    pkgs.hunspell
-#    pkgs.hunspellDicts.en_US
     # Git
     ghorg
     gh
