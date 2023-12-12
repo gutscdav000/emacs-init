@@ -21,3 +21,17 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
   )
+
+;; don't switch frames for things like ediff
+(setq use-dialog-box nil)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; golden ratio
+(use-package golden-ratio )
+
+;;TODO: move this into the library
+;; ace-window
+(advice-add 'ace-window :after #'golden-ratio)
+
+;; letters not numbers
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
