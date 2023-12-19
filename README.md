@@ -37,7 +37,6 @@ add the following to the end of an org file that you want org-ai-mode enabled it
 ```
 
 ## only install a package in a shell:
-```
 
 # install software in a single shell sesion:
 `nix shell nixpkgs#gh`
@@ -53,11 +52,11 @@ sometimes it will default to `~/` or `~/repositories` to fix this use the follow
 update your bashrc or zshrc respectively to include the following encantation at the bottom of the file:
 
 ```bash
-\# Nix
+# Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
-\# End Nix
+# End Nix
 ```
 
 start a new shell and you should have nix on the path again.
