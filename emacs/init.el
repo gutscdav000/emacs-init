@@ -26,12 +26,12 @@
 (setq use-dialog-box nil)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;; NOTE: was used to make golden ratio work with ace-window
+;; commented out because I didn't like golden ratio
 ;; golden ratio
-(use-package golden-ratio )
-
-;;TODO: move this into the library
+;; (use-package golden-ratio )
 ;; ace-window
-(advice-add 'ace-window :after #'golden-ratio)
+;; (advice-add 'ace-window :after #'golden-ratio)
 
 ;; letters not numbers
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
