@@ -1,4 +1,5 @@
 # useful commands
+## emacs
 
 | Command       | Library   | Description                                                         |
 |---------------|-----------|---------------------------------------------------------------------|
@@ -14,7 +15,18 @@
 | C-c 5 c                   | native    | clone frame                                             |
 | C-x +                     | native    | evenly space windows                                    |
 
-
+## scala sbt comands
+| Command                     |  Description                                                |
+|-----------------------------|-------------------------------------------------------------|
+| tpolecatDevMode             | turn off anoying compile errors                             |
+| tpolecatCiMode              | make compiler exhaustive for CI                             |
+| show scalacOptions          | shows scalac compiiler flags                                |
+| show semanticdbOptions      | show semantic db compiler flags                             |
+| inspect semanticdbOptions   | shows configuration of options                              |
+| ++3.3                       | use scala version 3.3.x                                     | 
+| reload plugins              | changes the current build to root project’s project/ build  |
+| show ThisBuild/scalaVersion | view ThisBuild properties                                   |
+| reload return               | changes back to the original build                          |
 
 
 add the following to the end of an org file that you want org-ai-mode enabled it. Note, we're not enabling it by default because it conflicts with verb-mode. 
@@ -49,16 +61,4 @@ fi
 ```
 start a new shell and you should have nix on the path again.
 
-## scala sbt comands
-| Command                     |  Description                                                |
-|-----------------------------|-------------------------------------------------------------|
-| tpolecatDevMode             | turn off anoying compile errors                             |
-| tpolecatCiMode              | make compiler exhaustive for CI                             |
-| show scalacOptions          | shows scalac compiiler flags                                |
-| show semanticdbOptions      | show semantic db compiler flags                             |
-| inspect semanticdbOptions   | shows configuration of options                              |
-| ++3.3                       | use scala version 3.3.x                                     | 
-| reload plugins              | changes the current build to root project’s project/ build  |
-| show ThisBuild/scalaVersion | view ThisBuild properties                                   |
-| reload return               | changes back to the original build                          |
 
