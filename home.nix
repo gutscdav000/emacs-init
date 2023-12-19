@@ -31,6 +31,7 @@
     # programming languages
     python3
     unstable.metals
+    unstable.bloop
     # desktop apps
     hot
     keepingYouAwake
