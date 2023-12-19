@@ -51,14 +51,15 @@ sometimes it will default to `~/` or `~/repositories` to fix this use the follow
 ## osx overwrites the /etc/bashrc, zsh, and zprofile because they want you to suffer
 
 update your bashrc or zshrc respectively to include the following encantation at the bottom of the file:
-```
-# Nix
+
+```bash
+\# Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
-# End Nix
-
+\# End Nix
 ```
+
 start a new shell and you should have nix on the path again.
 
 
