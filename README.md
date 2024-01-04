@@ -1,19 +1,21 @@
 # useful commands
 ## emacs
 
-| Command       | Library   | Description                                                         |
-|---------------|-----------|---------------------------------------------------------------------|
-| C-H v                     | helpful   | find a variable                                         |
-| C-H o                     | helpful   | find everything                                         |
-| S-l + = + =               | lsp       | scalafmt buffer                                         |
-| C-x C-SPC                 | ?         |  go to last cursor position                             |
-| C-l                       | native    |  half scroll, then scroll to cursor                     |
-| c-c p k                   | helm?     | kill all open buffers for project                       |
-| file-notify-rm-all-watches| native    |Remove all existing file notification watches from Emacs.|
-| C-x t p                   | native    |new tab with current projectile project open.            |
-| C-t R                     | dgibs func| rename tab to name of repository                        |
-| C-c 5 c                   | native    | clone frame                                             |
-| C-x +                     | native    | evenly space windows                                    |
+| Command       | Library   | Description                                                          |
+|---------------|-----------|----------------------------------------------------------------------|
+| C-H v                     | helpful   | find a variable                                          |
+| C-H o                     | helpful   | find everything                                          |
+| S-l + = + =               | lsp       | scalafmt buffer                                          |
+| C-x C-SPC                 | ?         |  go to last cursor position                              |
+| C-l                       | native    |  half scroll, then scroll to cursor                      |
+| c-c p k                   | helm?     | kill all open buffers for project                        |
+| file-notify-rm-all-watches| native    |Remove all existing file notification watches from Emacs. |
+| C-x t p                   | native    |new tab with current projectile project open.             |
+| C-t R                     | dgibs func| rename tab to name of repository                         |
+| C-c 5 c                   | native    | clone frame                                              |
+| C-x +                     | native    | evenly space windows                                     |
+| C-z  fg <- forground ps   | vterm     | background process                                       |
+| C-c C-l                   | vterm     | clear terminal buffer                                    |
 
 ## scala sbt comands
 | Command                     |  Description                                                |
