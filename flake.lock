@@ -16,15 +16,16 @@
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "nixpkgs-unstable": "nixpkgs-unstable"
       },
       "locked": {
-        "lastModified": 1696447187,
-        "narHash": "sha256-RkpUTmJTuWnocBawtNRWX30cvBV75qfifJz94akFL2Y=",
-        "owner": "gutscdav000",
-        "repo": "base-emacs-home-manager-module",
-        "rev": "b04c4b149b50a807d24b4db4e458263f9fe63113",
-        "type": "github"
+        "dirtyRev": "da9973004328de18a11f67bce20d489f8dec5dda-dirty",
+        "dirtyShortRev": "da99730-dirty",
+        "lastModified": 1704829729,
+        "narHash": "sha256-n/SAYa1IwvZuhfLxGfxkePWULg5dZ63U28pIsZ6ymSU=",
+        "type": "git",
+        "url": "file:///Users/davidgutsch/repositories/oss/base-emacs-home-manager-module"
       },
       "original": {
         "owner": "gutscdav000",
@@ -294,6 +295,22 @@
     },
     "nixpkgs-unstable": {
       "locked": {
+        "lastModified": 1704626572,
+        "narHash": "sha256-VwRTEKzK4wSSv64G+g3RLF3t6yBHrhR2VK3kZ5UWisU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "24fe8bb4f552ad3926274d29e083b79d84707da6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable_2": {
+      "locked": {
         "lastModified": 1702900294,
         "narHash": "sha256-pt7sSoJYNw3n8YtXw0Z/Nnr6/PfY2YrjDvqboErXnRM=",
         "owner": "NixOS",
@@ -351,7 +368,7 @@
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable_2"
       }
     },
     "sbt": {

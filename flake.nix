@@ -22,7 +22,7 @@
     };
     base-emacs = {      
       url = "github:gutscdav000/base-emacs-home-manager-module";
-      # url = "/Users/davidgutsch/repositories/oss/base-emacs-home-manager-module";
+#      url = "/Users/davidgutsch/repositories/oss/base-emacs-home-manager-module";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     copilot-el = {
@@ -46,9 +46,10 @@
             overlays = [
               #	  (final: prev: digital-nix.packages.${system})
               #	  digital-nix.overlays.default
-              (final: prev: {
-                unstable = nixpkgs-unstable.legacyPackages.${system};
-              })
+              # (final: prev: {
+              #   unstable = nixpkgs-unstable.legacyPackages.${system};
+              # })
+              base-emacs.overlays.unstable
               emacs-overlay.overlay
               flakey.overlays.default
             ];
