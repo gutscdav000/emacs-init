@@ -40,7 +40,7 @@
       };
       homeConfigurations."davidgutsch" =
         home-manager.lib.homeManagerConfiguration {
-          modules = [ ./home.nix flakey.homeManagerModules.default base-emacs.homeManagerModules.base-emacs ];
+          modules = [ ./home.nix flakey.homeManagerModules.default base-emacs.homeManagerModules.base-emacs digital-nix.homeModules.default ];
           pkgs = import nixpkgs {
             inherit system;
             overlays = [

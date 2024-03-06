@@ -20,6 +20,10 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  jkhy.digital.programs.beelzebub.enable = true;
+  jkhy.digital.programs.postgresConnect.enable = false;
+#  jkhy.digital.programs.gcp.enable = false;
+
   home.packages = with pkgs; [
 
     redis
@@ -32,13 +36,14 @@
     python3
     unstable.metals
     unstable.bloop
+    scala-cli
     # desktop apps
     hot
     keepingYouAwake
     rectangle
     # Git
     ghorg
-    gh
+    gh    
   ];
 
 }
