@@ -28,5 +28,7 @@
     keepingYouAwake
     rectangle
     pkgs.nodePackages_latest.pyright
+    pkgs.ffmpeg
+    pkgs.python39
   ];
 }
