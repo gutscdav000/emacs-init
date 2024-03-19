@@ -31,6 +31,7 @@
     k9s
     silver-searcher
     ripgrep
+    socat
     #postgres-connect
     # programming languages
     python3
