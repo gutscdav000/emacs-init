@@ -36,7 +36,7 @@
     in rec {
       darwinConfigurations."C02D4849MD6T" = nix-darwin.lib.darwinSystem {
         inherit system;
-        modules = [ ];
+        modules = [ ./darwin.nix digital-nix.darwinModules.default ];
       };
       homeConfigurations."davidgutsch" =
         home-manager.lib.homeManagerConfiguration {
